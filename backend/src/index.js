@@ -2,7 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes');
 const cors = require('cors');
+const http = require('http');
+const { setupWebsocket } = require('./websocket');
+
 const app = express();
+const servidor = http.Server(app);
+
+setupWebsocket(servidor);
 
 mongoose.connect('mongodb+srv://omnistack:omnistack@cluster0-cpjxc.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true,
@@ -22,4 +28,4 @@ app.use(routes);
 
 // MongoDB (Nonrelational)
 
-app.listen(3333);
+servidor.listen(3333);
